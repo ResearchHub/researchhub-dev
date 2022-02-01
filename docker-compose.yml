@@ -7,6 +7,11 @@ services:
       context: .
       dockerfile: dockerfiles/backend.Dockerfile
 
+    volumes:
+      - ./researchhub-backend:/researchhub-backend
+
+    hostname: dev-backend.researchhub.com
+
     command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
 
     expose:
@@ -20,7 +25,11 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/frontend.Dockerfile
-    command: npm run dev
+
+    volumes:
+      - ./researchhub-web:/researchhub-web
+
+    hostname: dev.researchhub.com
 
     expose:
       - 3000
@@ -33,6 +42,7 @@ services:
     env_file:
       - .env.dev
   nginx: 
+
     image: nginx:latest
     container_name: nginx
     volumes:

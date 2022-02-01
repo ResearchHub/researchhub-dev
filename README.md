@@ -4,27 +4,29 @@ This repository connects [researchhub-backend](https://github.com/ResearchHub/re
 ### 1.) Install Docker & [Docker Compose](https://docs.docker.com/compose/install/).
 
 
-### 2.) Clone this repository:
+### 2.) Clone neccessary repositories:
 
+    # Clone and enter this repository
     git clone https://github.com/ResearchHub/researchhub-dev.git
-    
-### 3.) Start docker-compose
-
-Make sure Docker is running first. This will take a little to build the first time you run it. This will launch the Django backend, Postgres Database, Redis, Elastic-Searcj, and migrate database changes.
-
     cd researchhub-dev
+
+    # Clone frontend and backend into researchhub-dev
+    git clone -b connerdev https://github.com/ResearchHub/researchhub-backend.git
+    git clone -b connerdev https://github.com/ResearchHub/researchhub-web.git
+    cp -R researchhub-backend/src/config/* researchhub-backend/src/config_local/
+
+    # Start Docker
     docker-compose up -d
+    
 
-
-
-### 4.) Update Your Hosts File
+### 3.) Update Your Hosts File
 
 Add the following entries to your hosts file (/etc/hosts)
 
     127.0.0.1	dev.researchhub.com
     127.0.0.1       dev-backend.researchhub.com
 
-### 5.) Start Development!
+### 4.) Start Development!
 
 Access your development ResearchHub in your browser @ https://dev.researchhub.com
 

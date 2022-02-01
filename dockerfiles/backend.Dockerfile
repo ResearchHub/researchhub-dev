@@ -1,5 +1,6 @@
 FROM python:3.6.12-alpine
 
+
 RUN apk add gcc g++ cmake make mupdf-dev freetype-dev git libxml2-dev \
         libxslt-dev postgresql postgresql-dev musl-dev libffi-dev libpng-dev \
         jpeg-dev libjpeg-turbo-dev openjdk11 bash
@@ -16,12 +17,7 @@ RUN ln -s /usr/include/freetype2/ft2build.h /usr/include/ft2build.h \
 
 RUN pip install PyMuPDF==1.18.8
 
-
-RUN git clone -b connerdev https://github.com/ResearchHub/researchhub-backend.git
-
-COPY requirements.dev.txt /researchhub-backend/src/requirements.txt
-
-RUN cp -R /researchhub-backend/src/config/* /researchhub-backend/src/config_local/
+COPY ./requirements.dev.txt /researchhub-backend/src/requirements.txt
 
 WORKDIR /researchhub-backend/src/
 
@@ -32,3 +28,4 @@ RUN python -m pip check
 ENV SIFT_REST_API_KEY='null'
 ENV APP_ENV='development'
 ENV RUN_RESEARCHHUB_DEV_SUBDOMAIN=true
+ENV VIRTUAL_HOST=dev-backend.researchhub.com
