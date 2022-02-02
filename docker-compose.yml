@@ -1,8 +1,8 @@
 version: '3.7'
 
 services:
-  web:
-    container_name: web
+  backend:
+    container_name: backend
     build:
       context: .
       dockerfile: dockerfiles/backend.Dockerfile
@@ -20,17 +20,18 @@ services:
       - .env.dev
     depends_on:
       - db
-  node:
+  web:
     image: node
     build:
       context: .
       dockerfile: dockerfiles/frontend.Dockerfile
 
+    restart: unless-stopped
+
     volumes:
       - ./researchhub-web:/researchhub-web
 
     hostname: dev.researchhub.com
-
     expose:
       - 3000
 
@@ -54,7 +55,7 @@ services:
       - 443:443
     depends_on:
       - web
-      - node
+      - backend
 
   redis:
     image: docker.io/bitnami/redis
@@ -72,6 +73,8 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
+
+    restart: unless-stopped
 
     networks:
       - researchhub-network
